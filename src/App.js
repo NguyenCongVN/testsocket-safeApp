@@ -11,7 +11,7 @@ function App() {
   const [maDongBoLichSuHienTai, setMaDongBo] = useState(null);
   useEffect(() => {
     if (token !== "") {
-      socket.current = io("http://localhost:4000", {
+      socket.current = io("https://murmuring-beyond-51639.herokuapp.com", {
         auth: {
           token: token,
         },
