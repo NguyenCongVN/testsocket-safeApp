@@ -9,9 +9,10 @@ function App() {
   const [url, setUrl] = useState("");
   var socket = useRef(null);
   const [maDongBoLichSuHienTai, setMaDongBo] = useState(null);
+  const [maDongBoBlackListHienTai , setMaDongBoBlackList] = useState(null);
   useEffect(() => {
     if (token !== "") {
-      socket.current = io("https://murmuring-beyond-51639.herokuapp.com", {
+      socket.current = io("localhost:4000", {
         auth: {
           token: token,
         },
@@ -71,6 +72,40 @@ function App() {
         console.log(data);
         socket.current.emit("capNhatLichSuThanhCong");
       });
+
+      socket.current.on('dongBoBlackListLoi' , (data) => {
+        console.log(data)
+      })
+
+      socket.current.on('thongTinCapNhatBlackList' , (data) => {
+        console.log(data)
+        socket.current.emit('yeuCauXacThucDongBoBlackList')
+      })
+
+      socket.current.on('xacThucDongBoBlackListLoi' , data => {
+        console.log(data)
+      })
+
+      socket.current.on('xacThucThanhCong' , data => {
+        console.log(data)
+      })
+
+      socket.current.on('capNhatBlackListLoi' , data => {
+        console.log(data)
+        console.log('Cập nhật blacklist lỗi')
+      })
+
+      socket.current.on('capNhatBlackListThanhCong' , data => {
+        console.log(data)
+        console.log('Cập nhật blacklist thành công')
+      })
+
+      socket.current.on('yeuCauCapNhatBlackList' , data => {
+        console.log(data)
+        console.log('Yêu cầu cập nhật blackList')
+        socket.current.emit('capNhatBlackListThanhCong')
+      })
+
       console.log("creating event");
     }
   }, [token]);
@@ -128,6 +163,42 @@ function App() {
         >
           {" "}
           Đồng bộ lịch sử truy cập{" "}
+        </button>
+
+        <button
+          onClick={() => {
+            if (maDongBoBlackListHienTai) {
+              console.log("Ma dong bo : " + maDongBoBlackListHienTai.toString());
+            }
+            if (!maDongBoBlackListHienTai) {
+              socket.current.emit("dongBoBlackList");
+            } else {
+              socket.current.emit("dongBoBlackList", {
+                maDongBoBlackList: maDongBoBlackListHienTai,
+              });
+            }
+          }}
+        >
+          {" "}
+          Đồng bộ BlackList{" "}
+        </button>
+
+
+        <button
+          onClick={() => {
+            if (maDongBoBlackListHienTai) {
+              console.log("Ma dong bo : " + maDongBoBlackListHienTai.toString());
+            }
+            if (!maDongBoBlackListHienTai) {
+              socket.current.emit("capNhatBlackList" , {
+                loaiCapNhat : "Them",
+                tenDanhSach : 'BlackListTest1'
+              });
+            }
+          }}
+        >
+          {" "}
+          Cập nhật blacklist{" "}
         </button>
       </div>
     </div>
