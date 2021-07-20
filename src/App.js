@@ -200,6 +200,62 @@ function App() {
           {" "}
           Cập nhật blacklist{" "}
         </button>
+
+
+        <button
+          onClick={() => {
+            if (maDongBoBlackListHienTai) {
+              console.log("Ma dong bo : " + maDongBoBlackListHienTai.toString());
+            }
+            if (!maDongBoBlackListHienTai) {
+              socket.current.emit("capNhatBlackList" , {
+                loaiCapNhat : "Them",
+                maDanhSach : '60f2f462eece820bf415754f',
+                thongTinChan : 'google.com',
+                bieuThucChinhQuy : false
+              });
+            }
+          }}
+        >
+          {" "}
+          Cập nhật thông tin chặn{" "}
+        </button>
+
+        <button
+          onClick={() => {
+            if (maDongBoBlackListHienTai) {
+              console.log("Ma dong bo : " + maDongBoBlackListHienTai.toString());
+            }
+            if (!maDongBoBlackListHienTai) {
+              socket.current.emit("capNhatBlackList" , {
+                loaiCapNhat : "CapNhat",
+                maDanhSach : '60f2f462eece820bf415754f',
+                tenDanhSach : 'Danh Sách Chặn 1',
+              });
+            }
+          }}
+        >
+          {" "}
+          Cập nhật tên blackList{" "}
+        </button>
+
+
+        <button
+          onClick={() => {
+            if (maDongBoBlackListHienTai) {
+              console.log("Ma dong bo : " + maDongBoBlackListHienTai.toString());
+            }
+            if (!maDongBoBlackListHienTai) {
+              socket.current.emit("capNhatBlackList" , {
+                loaiCapNhat : "Xoa",
+                maDanhSach : '60f2f462eece820bf415754f',
+              });
+            }
+          }}
+        >
+          {" "}
+          Xóa blackList{" "}
+        </button>
       </div>
     </div>
   );
